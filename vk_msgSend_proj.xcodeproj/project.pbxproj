@@ -436,6 +436,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = vk_msgSend_proj/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.awhisper.test.vk-msgSend-proj";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -447,6 +448,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = vk_msgSend_proj/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.awhisper.test.vk-msgSend-proj";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -520,6 +522,7 @@
 				6C30E8A81C2E507C00882AB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6C30E8A91C2E507C00882AB8 /* Build configuration list for PBXNativeTarget "vk_msgSend_projTests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +531,7 @@
 				6C30E8AB1C2E507C00882AB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6C30E8AC1C2E507C00882AB8 /* Build configuration list for PBXNativeTarget "vk_msgSend_projUITests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +540,7 @@
 				6C30E8AE1C2E507C00882AB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

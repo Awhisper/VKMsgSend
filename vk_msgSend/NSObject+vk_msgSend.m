@@ -251,456 +251,166 @@ return returnValue;\
 };
 
 
+
+
+static NSArray *vk_targetBoxingArguments(va_list argList,Class cls,SEL selector,NSError *__autoreleasing*error){
+    
+    NSMethodSignature *methodSignature = vk_getMethodSignature(cls, selector);
+    
+    NSString *selName = vk_getSelectorName(selector);
+    
+    if (!methodSignature) {
+        NSString* errorStr = [NSString stringWithFormat:@"unrecognized selector (%@)", selName];
+        vk_generateError(errorStr,error);
+        return nil;
+    }
+    
+    
+    
+    NSMutableArray *argumentsBoxingArray = [[NSMutableArray alloc]init];
+    
+    for (int i = 2; i < [methodSignature numberOfArguments]; i++) {
+        const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
+        
+        switch (argumentType[0] == 'r' ? argumentType[1] : argumentType[0]) {
+                
+#define VK_BOXING_ARG_CASE(_typeString, _type)\
+case _typeString: {\
+_type value = va_arg(argList, _type);\
+[argumentsBoxingArray addObject:@(value)];\
+break; \
+}\
+
+                VK_BOXING_ARG_CASE('c', char)
+                VK_BOXING_ARG_CASE('C', unsigned char)
+                VK_BOXING_ARG_CASE('s', short)
+                VK_BOXING_ARG_CASE('S', unsigned short)
+                VK_BOXING_ARG_CASE('i', int)
+                VK_BOXING_ARG_CASE('I', unsigned int)
+                VK_BOXING_ARG_CASE('l', long)
+                VK_BOXING_ARG_CASE('L', unsigned long)
+                VK_BOXING_ARG_CASE('q', long long)
+                VK_BOXING_ARG_CASE('Q', unsigned long long)
+                VK_BOXING_ARG_CASE('f', float)
+                VK_BOXING_ARG_CASE('d', double)
+                VK_BOXING_ARG_CASE('B', BOOL)
+                
+            case ':': {
+                //                SEL value = va_arg(argList, SEL);
+                //                [invocation setArgument:&value atIndex:i];
+                vk_generateError(@"unsupport selector argumenst",error);
+                return nil;
+                break;
+            }
+            case '{': {
+                NSString *typeString = vk_extractStructName([NSString stringWithUTF8String:argumentType]);
+                
+#define JP_CALL_ARG_STRUCT(_type, _methodName) \
+if ([typeString rangeOfString:@#_type].location != NSNotFound) {    \
+_type val = va_arg(argList, _type);\
+NSValue* value = [NSValue _methodName:val];\
+[argumentsBoxingArray addObject:value];  \
+break; \
+}
+                JP_CALL_ARG_STRUCT(CGRect, valueWithCGRect)
+                JP_CALL_ARG_STRUCT(CGPoint, valueWithCGPoint)
+                JP_CALL_ARG_STRUCT(CGSize, valueWithCGSize)
+                JP_CALL_ARG_STRUCT(NSRange, valueWithRange)
+                JP_CALL_ARG_STRUCT(CGAffineTransform, valueWithCGAffineTransform)
+                JP_CALL_ARG_STRUCT(UIEdgeInsets, valueWithUIEdgeInsets)
+                JP_CALL_ARG_STRUCT(UIOffset, valueWithUIOffset)
+                JP_CALL_ARG_STRUCT(CGVector, valueWithCGVector)
+                //
+                
+                break;
+            }
+            case '*':{
+                vk_generateError(@"unsupport char* argumenst",error);
+                return nil;
+                break;
+            }
+            case '^': {
+                vk_generateError(@"unsupport pointer argumenst",error);
+                return nil;
+                break;
+            }
+            case '#': {
+                vk_generateError(@"unsupport class argumenst",error);
+                return nil;
+                break;
+            }
+            default: {
+                id value = va_arg(argList, id);
+                if (value) {
+                    [argumentsBoxingArray addObject:value];
+                }else{
+                    [argumentsBoxingArray addObject:[vk_nilObject new]];
+                }
+                
+            }
+        }
+    }
+    return [argumentsBoxingArray copy];
+}
+
 @implementation NSObject (vk_msgSend)
 
-// help!!!help!!!help!!! how to reuse va_list argumenst like this!
-// I hate copy  va_list va_start va_arg va_end so many times!
-// help!!!
-//- (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...{
-//    SEL selector = NSSelectorFromString(selName);
-//    [self vk_callSelector:selector error:error,...];
-//}
 + (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...{
-    
     va_list argList;
     va_start(argList, error);
     
-    Class cls = [self class];
     SEL selector = NSSelectorFromString(selName);
-    NSMethodSignature *methodSignature = vk_getMethodSignature(cls, selector);
-    
-    if (!methodSignature) {
-        NSString* errorStr = [NSString stringWithFormat:@"unrecognized selector (%@)", selName];
-        vk_generateError(errorStr,error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, [self class], selector, error);
+    if (!boxingArguments) {//count == 0 正常 nil 不正常
         return nil;
-    }
-    
-    
-    
-    NSMutableArray *argumentsBoxingArray = [[NSMutableArray alloc]init];
-    
-    for (int i = 2; i < [methodSignature numberOfArguments]; i++) {
-        const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
-        
-        switch (argumentType[0] == 'r' ? argumentType[1] : argumentType[0]) {
-                
-#define VK_BOXING_ARG_CASE(_typeString, _type)\
-case _typeString: {\
-_type value = va_arg(argList, _type);\
-[argumentsBoxingArray addObject:@(value)];\
-break; \
-}\
-
-                VK_BOXING_ARG_CASE('c', char)
-                VK_BOXING_ARG_CASE('C', unsigned char)
-                VK_BOXING_ARG_CASE('s', short)
-                VK_BOXING_ARG_CASE('S', unsigned short)
-                VK_BOXING_ARG_CASE('i', int)
-                VK_BOXING_ARG_CASE('I', unsigned int)
-                VK_BOXING_ARG_CASE('l', long)
-                VK_BOXING_ARG_CASE('L', unsigned long)
-                VK_BOXING_ARG_CASE('q', long long)
-                VK_BOXING_ARG_CASE('Q', unsigned long long)
-                VK_BOXING_ARG_CASE('f', float)
-                VK_BOXING_ARG_CASE('d', double)
-                VK_BOXING_ARG_CASE('B', BOOL)
-                
-            case ':': {
-                //                SEL value = va_arg(argList, SEL);
-                //                [invocation setArgument:&value atIndex:i];
-                vk_generateError(@"unsupport selector argumenst",error);
-                return nil;
-                break;
-            }
-            case '{': {
-                NSString *typeString = vk_extractStructName([NSString stringWithUTF8String:argumentType]);
-                
-#define JP_CALL_ARG_STRUCT(_type, _methodName) \
-if ([typeString rangeOfString:@#_type].location != NSNotFound) {    \
-_type val = va_arg(argList, _type);\
-NSValue* value = [NSValue _methodName:val];\
-[argumentsBoxingArray addObject:value];  \
-break; \
-}
-                JP_CALL_ARG_STRUCT(CGRect, valueWithCGRect)
-                JP_CALL_ARG_STRUCT(CGPoint, valueWithCGPoint)
-                JP_CALL_ARG_STRUCT(CGSize, valueWithCGSize)
-                JP_CALL_ARG_STRUCT(NSRange, valueWithRange)
-                JP_CALL_ARG_STRUCT(CGAffineTransform, valueWithCGAffineTransform)
-                JP_CALL_ARG_STRUCT(UIEdgeInsets, valueWithUIEdgeInsets)
-                JP_CALL_ARG_STRUCT(UIOffset, valueWithUIOffset)
-                JP_CALL_ARG_STRUCT(CGVector, valueWithCGVector)
-                //
-                
-                break;
-            }
-            case '*':{
-                vk_generateError(@"unsupport char* argumenst",error);
-                return nil;
-                break;
-            }
-            case '^': {
-                vk_generateError(@"unsupport pointer argumenst",error);
-                return nil;
-                break;
-            }
-            case '#': {
-                vk_generateError(@"unsupport class argumenst",error);
-                return nil;
-                break;
-            }
-            default: {
-                id value = va_arg(argList, id);
-                if (value) {
-                    [argumentsBoxingArray addObject:value];
-                }else{
-                    [argumentsBoxingArray addObject:[vk_nilObject new]];
-                }
-                
-            }
-        }
     }
     
     va_end(argList);
     
-    return vk_targetCallSelectorWithArgumentError(self, selector, [argumentsBoxingArray copy], error);
+    return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
 
-// help!!!help!!!help!!! how to reuse va_list argumenst like this!
-// I hate copy  va_list va_start va_arg va_end so many times!
-// help!!!
-//- (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...{
-//    SEL selector = NSSelectorFromString(selName);
-//    [self vk_callSelector:selector error:error,...];
-//}
 + (id)vk_callSelector:(SEL)selector error:(NSError*__autoreleasing*)error,...{
-    
     va_list argList;
     va_start(argList, error);
     
-    Class cls = [self class];
-    NSMethodSignature *methodSignature = vk_getMethodSignature(cls, selector);
-    
-    NSString* selName = vk_getSelectorName(selector);
-    
-    if (!methodSignature) {
-        NSString* errorStr = [NSString stringWithFormat:@"unrecognized selector (%@)", selName];
-        vk_generateError(errorStr,error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, [self class], selector, error);
+    if (!boxingArguments) {//count == 0 正常 nil 不正常
         return nil;
-    }
-    
-    
-    
-    NSMutableArray *argumentsBoxingArray = [[NSMutableArray alloc]init];
-    
-    for (int i = 2; i < [methodSignature numberOfArguments]; i++) {
-        const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
-        
-        switch (argumentType[0] == 'r' ? argumentType[1] : argumentType[0]) {
-                
-#define VK_BOXING_ARG_CASE(_typeString, _type)\
-case _typeString: {\
-_type value = va_arg(argList, _type);\
-[argumentsBoxingArray addObject:@(value)];\
-break; \
-}\
-
-                VK_BOXING_ARG_CASE('c', char)
-                VK_BOXING_ARG_CASE('C', unsigned char)
-                VK_BOXING_ARG_CASE('s', short)
-                VK_BOXING_ARG_CASE('S', unsigned short)
-                VK_BOXING_ARG_CASE('i', int)
-                VK_BOXING_ARG_CASE('I', unsigned int)
-                VK_BOXING_ARG_CASE('l', long)
-                VK_BOXING_ARG_CASE('L', unsigned long)
-                VK_BOXING_ARG_CASE('q', long long)
-                VK_BOXING_ARG_CASE('Q', unsigned long long)
-                VK_BOXING_ARG_CASE('f', float)
-                VK_BOXING_ARG_CASE('d', double)
-                VK_BOXING_ARG_CASE('B', BOOL)
-                
-            case ':': {
-                //                SEL value = va_arg(argList, SEL);
-                //                [invocation setArgument:&value atIndex:i];
-                vk_generateError(@"unsupport selector argumenst",error);
-                return nil;
-                break;
-            }
-            case '{': {
-                NSString *typeString = vk_extractStructName([NSString stringWithUTF8String:argumentType]);
-                
-#define JP_CALL_ARG_STRUCT(_type, _methodName) \
-if ([typeString rangeOfString:@#_type].location != NSNotFound) {    \
-_type val = va_arg(argList, _type);\
-NSValue* value = [NSValue _methodName:val];\
-[argumentsBoxingArray addObject:value];  \
-break; \
-}
-                JP_CALL_ARG_STRUCT(CGRect, valueWithCGRect)
-                JP_CALL_ARG_STRUCT(CGPoint, valueWithCGPoint)
-                JP_CALL_ARG_STRUCT(CGSize, valueWithCGSize)
-                JP_CALL_ARG_STRUCT(NSRange, valueWithRange)
-                JP_CALL_ARG_STRUCT(CGAffineTransform, valueWithCGAffineTransform)
-                JP_CALL_ARG_STRUCT(UIEdgeInsets, valueWithUIEdgeInsets)
-                JP_CALL_ARG_STRUCT(UIOffset, valueWithUIOffset)
-                JP_CALL_ARG_STRUCT(CGVector, valueWithCGVector)
-                //
-                
-                break;
-            }
-            case '*':{
-                vk_generateError(@"unsupport char* argumenst",error);
-                return nil;
-                break;
-            }
-            case '^': {
-                vk_generateError(@"unsupport pointer argumenst",error);
-                return nil;
-                break;
-            }
-            case '#': {
-                vk_generateError(@"unsupport class argumenst",error);
-                return nil;
-                break;
-            }
-            default: {
-                id value = va_arg(argList, id);
-                if (value) {
-                    [argumentsBoxingArray addObject:value];
-                }else{
-                    [argumentsBoxingArray addObject:[vk_nilObject new]];
-                }
-                
-            }
-        }
     }
     
     va_end(argList);
     
-    return vk_targetCallSelectorWithArgumentError(self, selector, [argumentsBoxingArray copy], error);
+    return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
 
-// help!!!help!!!help!!! how to reuse va_list argumenst like this!
-// I hate copy  va_list va_start va_arg va_end so many times!
-// help!!!
-//- (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...{
-//    SEL selector = NSSelectorFromString(selName);
-//    [self vk_callSelector:selector error:error,...];
-//}
 - (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...{
-    
     va_list argList;
     va_start(argList, error);
     
-    Class cls = [self class];
     SEL selector = NSSelectorFromString(selName);
-    NSMethodSignature *methodSignature = vk_getMethodSignature(cls, selector);
-    
-//    NSString* selName = vk_getSelectorName(selector);
-    
-    if (!methodSignature) {
-        NSString* errorStr = [NSString stringWithFormat:@"unrecognized selector (%@)", selName];
-        vk_generateError(errorStr,error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, [self class], selector, error);
+    if (!boxingArguments) {//count == 0 正常 nil 不正常
         return nil;
-    }
-    
-    
-    
-    NSMutableArray *argumentsBoxingArray = [[NSMutableArray alloc]init];
-    
-    for (int i = 2; i < [methodSignature numberOfArguments]; i++) {
-        const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
-        
-        switch (argumentType[0] == 'r' ? argumentType[1] : argumentType[0]) {
-                
-#define VK_BOXING_ARG_CASE(_typeString, _type)\
-case _typeString: {\
-_type value = va_arg(argList, _type);\
-[argumentsBoxingArray addObject:@(value)];\
-break; \
-}\
-
-                VK_BOXING_ARG_CASE('c', char)
-                VK_BOXING_ARG_CASE('C', unsigned char)
-                VK_BOXING_ARG_CASE('s', short)
-                VK_BOXING_ARG_CASE('S', unsigned short)
-                VK_BOXING_ARG_CASE('i', int)
-                VK_BOXING_ARG_CASE('I', unsigned int)
-                VK_BOXING_ARG_CASE('l', long)
-                VK_BOXING_ARG_CASE('L', unsigned long)
-                VK_BOXING_ARG_CASE('q', long long)
-                VK_BOXING_ARG_CASE('Q', unsigned long long)
-                VK_BOXING_ARG_CASE('f', float)
-                VK_BOXING_ARG_CASE('d', double)
-                VK_BOXING_ARG_CASE('B', BOOL)
-                
-            case ':': {
-                //                SEL value = va_arg(argList, SEL);
-                //                [invocation setArgument:&value atIndex:i];
-                vk_generateError(@"unsupport selector argumenst",error);
-                return nil;
-                break;
-            }
-            case '{': {
-                NSString *typeString = vk_extractStructName([NSString stringWithUTF8String:argumentType]);
-                
-#define JP_CALL_ARG_STRUCT(_type, _methodName) \
-if ([typeString rangeOfString:@#_type].location != NSNotFound) {    \
-_type val = va_arg(argList, _type);\
-NSValue* value = [NSValue _methodName:val];\
-[argumentsBoxingArray addObject:value];  \
-break; \
-}
-                JP_CALL_ARG_STRUCT(CGRect, valueWithCGRect)
-                JP_CALL_ARG_STRUCT(CGPoint, valueWithCGPoint)
-                JP_CALL_ARG_STRUCT(CGSize, valueWithCGSize)
-                JP_CALL_ARG_STRUCT(NSRange, valueWithRange)
-                JP_CALL_ARG_STRUCT(CGAffineTransform, valueWithCGAffineTransform)
-                JP_CALL_ARG_STRUCT(UIEdgeInsets, valueWithUIEdgeInsets)
-                JP_CALL_ARG_STRUCT(UIOffset, valueWithUIOffset)
-                JP_CALL_ARG_STRUCT(CGVector, valueWithCGVector)
-                //
-                
-                break;
-            }
-            case '*':{
-                vk_generateError(@"unsupport char* argumenst",error);
-                return nil;
-                break;
-            }
-            case '^': {
-                vk_generateError(@"unsupport pointer argumenst",error);
-                return nil;
-                break;
-            }
-            case '#': {
-                vk_generateError(@"unsupport class argumenst",error);
-                return nil;
-                break;
-            }
-            default: {
-                id value = va_arg(argList, id);
-                if (value) {
-                    [argumentsBoxingArray addObject:value];
-                }else{
-                    [argumentsBoxingArray addObject:[vk_nilObject new]];
-                }
-                
-            }
-        }
     }
     
     va_end(argList);
     
-    return vk_targetCallSelectorWithArgumentError(self, selector, [argumentsBoxingArray copy], error);
+    return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
-
 
 - (id)vk_callSelector:(SEL)selector error:(NSError*__autoreleasing*)error,...{
    
     va_list argList;
     va_start(argList, error);
-    
-    Class cls = [self class];
-    NSMethodSignature *methodSignature = vk_getMethodSignature(cls, selector);
-    
-    NSString* selName = vk_getSelectorName(selector);
-    
-    if (!methodSignature) {
-        NSString* errorStr = [NSString stringWithFormat:@"unrecognized selector (%@)", selName];
-        vk_generateError(errorStr,error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, [self class], selector, error);
+    if (!boxingArguments) {//count == 0 正常 nil 不正常
         return nil;
-    }
-    
-    
-    
-    NSMutableArray *argumentsBoxingArray = [[NSMutableArray alloc]init];
-    
-    for (int i = 2; i < [methodSignature numberOfArguments]; i++) {
-        const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
-        
-        switch (argumentType[0] == 'r' ? argumentType[1] : argumentType[0]) {
-                
-#define VK_BOXING_ARG_CASE(_typeString, _type)\
-case _typeString: {\
-_type value = va_arg(argList, _type);\
-[argumentsBoxingArray addObject:@(value)];\
-break; \
-}\
-
-                VK_BOXING_ARG_CASE('c', char)
-                VK_BOXING_ARG_CASE('C', unsigned char)
-                VK_BOXING_ARG_CASE('s', short)
-                VK_BOXING_ARG_CASE('S', unsigned short)
-                VK_BOXING_ARG_CASE('i', int)
-                VK_BOXING_ARG_CASE('I', unsigned int)
-                VK_BOXING_ARG_CASE('l', long)
-                VK_BOXING_ARG_CASE('L', unsigned long)
-                VK_BOXING_ARG_CASE('q', long long)
-                VK_BOXING_ARG_CASE('Q', unsigned long long)
-                VK_BOXING_ARG_CASE('f', float)
-                VK_BOXING_ARG_CASE('d', double)
-                VK_BOXING_ARG_CASE('B', BOOL)
-                
-            case ':': {
-//                SEL value = va_arg(argList, SEL);
-//                [invocation setArgument:&value atIndex:i];
-                vk_generateError(@"unsupport selector argumenst",error);
-                return nil;
-                break;
-            }
-            case '{': {
-                NSString *typeString = vk_extractStructName([NSString stringWithUTF8String:argumentType]);
-                
-#define JP_CALL_ARG_STRUCT(_type, _methodName) \
-if ([typeString rangeOfString:@#_type].location != NSNotFound) {    \
-_type val = va_arg(argList, _type);\
-NSValue* value = [NSValue _methodName:val];\
-[argumentsBoxingArray addObject:value];  \
-break; \
-}
-                JP_CALL_ARG_STRUCT(CGRect, valueWithCGRect)
-                JP_CALL_ARG_STRUCT(CGPoint, valueWithCGPoint)
-                JP_CALL_ARG_STRUCT(CGSize, valueWithCGSize)
-                JP_CALL_ARG_STRUCT(NSRange, valueWithRange)
-                JP_CALL_ARG_STRUCT(CGAffineTransform, valueWithCGAffineTransform)
-                JP_CALL_ARG_STRUCT(UIEdgeInsets, valueWithUIEdgeInsets)
-                JP_CALL_ARG_STRUCT(UIOffset, valueWithUIOffset)
-                JP_CALL_ARG_STRUCT(CGVector, valueWithCGVector)
-                //
-                
-                break;
-            }
-            case '*':{
-                vk_generateError(@"unsupport char* argumenst",error);
-                return nil;
-                break;
-            }
-            case '^': {
-                vk_generateError(@"unsupport pointer argumenst",error);
-                return nil;
-                break;
-            }
-            case '#': {
-                vk_generateError(@"unsupport class argumenst",error);
-                return nil;
-                break;
-            }
-            default: {
-                id value = va_arg(argList, id);
-                if (value) {
-                    [argumentsBoxingArray addObject:value];
-                }else{
-                    [argumentsBoxingArray addObject:[vk_nilObject new]];
-                }
-                
-            }
-        }
     }
     
     va_end(argList);
     
-    return vk_targetCallSelectorWithArgumentError(self, selector, [argumentsBoxingArray copy], error);
+    return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
 
 
