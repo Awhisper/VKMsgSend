@@ -11,7 +11,7 @@
 
 @implementation testClassA
 
-+(NSInteger)testfunction:(int)num withB:(float)boolv withC:(NSString*)str{
++(NSInteger)testfunction:(int)num withB:(float)boolv withH:(NSString*)str{
     return 4;
 }
 

@@ -18,4 +18,6 @@
 
 - (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...;
 
+- (id)vk_callTest:(NSString*)selName,...;
+
 @end

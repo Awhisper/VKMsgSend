@@ -22,15 +22,16 @@
     
     Class cls = NSClassFromString(@"testClassA");
     id<vk_msgSend> abc = [[cls alloc]init];
+    
     NSError *err;
     
-    NSString *return1 = [abc vk_callSelector:@selector(testfunction:withB:) error:&err,4,3.5f, nil];
+    NSString *return1 = [abc vk_callSelector:@selector(testfunction:withB:) error:&err,4,3.5f];
     
-    NSNumber *return2 = [[abc class] vk_callSelector:@selector(testfunction:withB:withC:) error:&err,4,3.5,@"haha", nil];
+    NSNumber *return2 = [[abc class] vk_callSelector:@selector(testfunction:withB:withH:) error:&err,4,3.5,@"haha"];
     NSInteger tureReturn2 = [return2 integerValue];
     // need intValue
     
-    NSNumber *return3 = [abc vk_callSelectorName:@"testfunction:withB:withC:" error:&err,4,3.5,@"haha", nil];
+    NSNumber *return3 = [abc vk_callSelectorName:@"testfunction:withB:withC:" error:&err,4,3.5,@"haha"];
     NSInteger tureReturn3 = [return3 integerValue];
     // need intValue
     

@@ -10,11 +10,6 @@
 #import <objc/runtime.h>
 
 
-//#define VK_MsgSendStructBoxing(_type,struct)\
-[NSValue valueWithBytes:&(struct) objCType:@encode(_type)]
-
-
-
 #if TARGET_OS_IPHONE
 #import <UIKit/UIApplication.h>
 #endif
@@ -55,6 +50,9 @@ static NSString *vk_extractStructName(NSString *typeEncodeString)
 static NSMethodSignature *vk_getMethodSignature(Class cls,SEL selector)
 {
     [_vkMethodSignatureLock lock];
+    if (!_vkMethodSignatureCache) {
+        _vkMethodSignatureCache = [[NSMutableDictionary alloc]init];
+    }
     if (!_vkMethodSignatureCache[cls]) {
         _vkMethodSignatureCache[(id<NSCopying>)cls] = [[NSMutableDictionary alloc]init];
     }
@@ -77,7 +75,10 @@ static NSString *vk_getSelectorName(SEL selector){
 }
 
 static void vk_generateError(NSString *errorInfo, NSError **error){
-     *error = [NSError errorWithDomain:@"message send reciver is nil" code:0 userInfo:nil];
+    if (error) {
+        *error = [NSError errorWithDomain:@"message send reciver is nil" code:0 userInfo:nil];
+    }
+    
 }
 
 static id vk_targetCallSelectorWithArgumentError(id target,SEL selector,NSArray *argsArr,NSError *__autoreleasing*error){
@@ -271,7 +272,6 @@ static NSArray *vk_targetBoxingArguments(va_list argList,Class cls,SEL selector,
     
     for (int i = 2; i < [methodSignature numberOfArguments]; i++) {
         const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
-        
         switch (argumentType[0] == 'r' ? argumentType[1] : argumentType[0]) {
                 
 #define VK_BOXING_ARG_CASE(_typeString, _type)\
@@ -281,19 +281,19 @@ _type value = va_arg(argList, _type);\
 break; \
 }\
 
-                VK_BOXING_ARG_CASE('c', char)
-                VK_BOXING_ARG_CASE('C', unsigned char)
-                VK_BOXING_ARG_CASE('s', short)
-                VK_BOXING_ARG_CASE('S', unsigned short)
+                VK_BOXING_ARG_CASE('c', int)
+                VK_BOXING_ARG_CASE('C', int)
+                VK_BOXING_ARG_CASE('s', int)
+                VK_BOXING_ARG_CASE('S', int)
                 VK_BOXING_ARG_CASE('i', int)
                 VK_BOXING_ARG_CASE('I', unsigned int)
                 VK_BOXING_ARG_CASE('l', long)
                 VK_BOXING_ARG_CASE('L', unsigned long)
                 VK_BOXING_ARG_CASE('q', long long)
                 VK_BOXING_ARG_CASE('Q', unsigned long long)
-                VK_BOXING_ARG_CASE('f', float)
+                VK_BOXING_ARG_CASE('f', double)
                 VK_BOXING_ARG_CASE('d', double)
-                VK_BOXING_ARG_CASE('B', BOOL)
+                VK_BOXING_ARG_CASE('B', int)
                 
             case ':': {
                 //                SEL value = va_arg(argList, SEL);
@@ -339,14 +339,19 @@ break; \
                 return nil;
                 break;
             }
-            default: {
+            case '@':{
                 id value = va_arg(argList, id);
                 if (value) {
                     [argumentsBoxingArray addObject:value];
                 }else{
                     [argumentsBoxingArray addObject:[vk_nilObject new]];
                 }
-                
+                break;
+            }
+            default: {
+                vk_generateError(@"unsupport argumenst",error);
+                return nil;
+                break;
             }
         }
     }
@@ -358,28 +363,28 @@ break; \
 + (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...{
     va_list argList;
     va_start(argList, error);
-    
     SEL selector = NSSelectorFromString(selName);
     NSArray* boxingArguments = vk_targetBoxingArguments(argList, [self class], selector, error);
+    va_end(argList);
+    
     if (!boxingArguments) {//count == 0 正常 nil 不正常
         return nil;
     }
-    
-    va_end(argList);
     
     return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
 
 + (id)vk_callSelector:(SEL)selector error:(NSError*__autoreleasing*)error,...{
+    
+    
     va_list argList;
     va_start(argList, error);
-    
     NSArray* boxingArguments = vk_targetBoxingArguments(argList, [self class], selector, error);
+    va_end(argList);
+    
     if (!boxingArguments) {//count == 0 正常 nil 不正常
         return nil;
     }
-    
-    va_end(argList);
     
     return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
@@ -387,14 +392,13 @@ break; \
 - (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...{
     va_list argList;
     va_start(argList, error);
-    
     SEL selector = NSSelectorFromString(selName);
     NSArray* boxingArguments = vk_targetBoxingArguments(argList, [self class], selector, error);
+    va_end(argList);
+    
     if (!boxingArguments) {//count == 0 正常 nil 不正常
         return nil;
     }
-    
-    va_end(argList);
     
     return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
@@ -404,11 +408,11 @@ break; \
     va_list argList;
     va_start(argList, error);
     NSArray* boxingArguments = vk_targetBoxingArguments(argList, [self class], selector, error);
+    va_end(argList);
+    
     if (!boxingArguments) {//count == 0 正常 nil 不正常
         return nil;
     }
-    
-    va_end(argList);
     
     return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
