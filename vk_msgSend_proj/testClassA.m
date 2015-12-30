@@ -12,24 +12,34 @@
 @implementation testClassA
 
 +(NSInteger)testfunction:(int)num withB:(float)boolv withH:(NSString*)str{
-    return 4;
+    return 1;
 }
 
 -(NSString*)testfunction:(int)num withB:(float)boolv{
-    NSLog(@"11");
-    return @"11";
+    NSLog(@"I'm testfunction: withB:");
+    return @"hello";
 }
 
 -(NSInteger)testfunction:(int)num withB:(float)boolv withC:(NSString*)str{
-    return 4;
+    NSLog(@"I'm testfunction: withB: withC:");
+    return 1;
 }
 
 -(NSString*)testfunction:(int)num withB:(float)boolv withC:(NSString*)str withD:(CGRect)rect{
-    return @"11";
+    NSLog(@"I'm testfunction: withB: withC: withD:");
+    return @"hello";
 }
 
 -(CGRect)testfunction:(int)num withB:(float)boolv withC:(NSString*)str withE:(NSRange)rect{
+    NSLog(@"I'm testfunction: withB: withC: withD: withE:");
     return CGRectZero;
+}
+
+-(NSString *)testfunctionWithProtocol:(id)protocol
+{
+    Protocol *pro = (Protocol*)protocol;
+    NSLog(@"%@",NSStringFromProtocol(pro));
+    return @"hello";
 }
 
 @end
