@@ -65,6 +65,17 @@
 
 参数之所以可以通用匹配是因为使用了可变参数。
 
+###其他方法
+其实不仅支持输入SEL，直接输入string型的，具体参见Demo里面的测试用例
+	
+	+ (id)vk_callSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
+	
+	+ (id)vk_callSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
+	
+	- (id)vk_callSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
+	
+	- (id)vk_callSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
+
 
 ##对比
 - performSelector缺点
