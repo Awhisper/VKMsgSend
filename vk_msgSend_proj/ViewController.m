@@ -20,6 +20,9 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     Class cls = NSClassFromString(@"testClassA");
+    
+    [(id<vk_msgSend>)cls vk_callSelector:@selector(testfunction:withB:withH:) error:nil,4,3.5,@"haha"];
+    
     id<vk_msgSend> abc = [[cls alloc]init];
     
     NSError *err;
