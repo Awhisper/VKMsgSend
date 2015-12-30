@@ -89,6 +89,7 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
         const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
         id valObj = argsArr[i-2];
         switch (argumentType[0]=='r'?argumentType[1]:argumentType[0]) {
+<<<<<<< .merge_file_z7KyNF
                 
         #define VK_CALL_ARG_CASE(_typeString, _type, _selector) \
         case _typeString: {                              \
@@ -111,6 +112,28 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
                         VK_CALL_ARG_CASE('d', double, doubleValue)
                         VK_CALL_ARG_CASE('B', BOOL, boolValue)
     
+=======
+            #define VK_CALL_ARG_CASE(_typeString, _type, _selector) \
+            case _typeString: {                              \
+            _type value = [valObj _selector];                     \
+            [invocation setArgument:&value atIndex:i];\
+            break; \
+            }
+                VK_CALL_ARG_CASE('c', char, charValue)
+                VK_CALL_ARG_CASE('C', unsigned char, unsignedCharValue)
+                VK_CALL_ARG_CASE('s', short, shortValue)
+                VK_CALL_ARG_CASE('S', unsigned short, unsignedShortValue)
+                VK_CALL_ARG_CASE('i', int, intValue)
+                VK_CALL_ARG_CASE('I', unsigned int, unsignedIntValue)
+                VK_CALL_ARG_CASE('l', long, longValue)
+                VK_CALL_ARG_CASE('L', unsigned long, unsignedLongValue)
+                VK_CALL_ARG_CASE('q', long long, longLongValue)
+                VK_CALL_ARG_CASE('Q', unsigned long long, unsignedLongLongValue)
+                VK_CALL_ARG_CASE('f', float, floatValue)
+                VK_CALL_ARG_CASE('d', double, doubleValue)
+                VK_CALL_ARG_CASE('B', BOOL, boolValue)
+
+>>>>>>> .merge_file_hzeiZC
             case ':':{
                 NSCAssert(NO, @"argument boxing wrong,selector is not supported");
             }
