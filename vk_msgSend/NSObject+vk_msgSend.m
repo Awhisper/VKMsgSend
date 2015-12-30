@@ -65,7 +65,15 @@ static NSMethodSignature *vk_getMethodSignature(Class cls, SEL selector){
     NSMethodSignature *methodSignature = _vkMethodSignatureCache[cls][selName];
     if (!methodSignature) {
         methodSignature = [cls instanceMethodSignatureForSelector:selector];
-        _vkMethodSignatureCache[cls][selName] = methodSignature;
+        if (methodSignature) {
+            _vkMethodSignatureCache[cls][selName] = methodSignature;
+        }else
+        {
+            methodSignature = [cls methodSignatureForSelector:selector];
+            if (methodSignature) {
+                _vkMethodSignatureCache[cls][selName] = methodSignature;
+            }
+        }
     }
     [_vkMethodSignatureLock unlock];
     return methodSignature;
