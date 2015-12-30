@@ -28,10 +28,6 @@
 		6C30E8881C2E507B00882AB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6C30E88B1C2E507B00882AB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6C30E88D1C2E507B00882AB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6C30E8961C2E507B00882AB8 /* vk_msgSend_projTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = vk_msgSend_projTests.m; sourceTree = "<group>"; };
-		6C30E8981C2E507B00882AB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6C30E8A11C2E507C00882AB8 /* vk_msgSend_projUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = vk_msgSend_projUITests.m; sourceTree = "<group>"; };
-		6C30E8A31C2E507C00882AB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C30E8B01C2E50AB00882AB8 /* NSObject+vk_msgSend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+vk_msgSend.h"; sourceTree = "<group>"; };
 		6C30E8B11C2E50AB00882AB8 /* NSObject+vk_msgSend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+vk_msgSend.m"; sourceTree = "<group>"; };
 		6C30E8B31C2E50D300882AB8 /* vk_msgSend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vk_msgSend.h; sourceTree = "<group>"; };
@@ -55,8 +51,6 @@
 			children = (
 				6C30E8AF1C2E50AB00882AB8 /* vk_msgSend */,
 				6C30E87B1C2E507B00882AB8 /* vk_msgSend_proj */,
-				6C30E8951C2E507B00882AB8 /* vk_msgSend_projTests */,
-				6C30E8A01C2E507C00882AB8 /* vk_msgSend_projUITests */,
 				6C30E87A1C2E507B00882AB8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -93,24 +87,6 @@
 				6C30E87D1C2E507B00882AB8 /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		6C30E8951C2E507B00882AB8 /* vk_msgSend_projTests */ = {
-			isa = PBXGroup;
-			children = (
-				6C30E8961C2E507B00882AB8 /* vk_msgSend_projTests.m */,
-				6C30E8981C2E507B00882AB8 /* Info.plist */,
-			);
-			path = vk_msgSend_projTests;
-			sourceTree = "<group>";
-		};
-		6C30E8A01C2E507C00882AB8 /* vk_msgSend_projUITests */ = {
-			isa = PBXGroup;
-			children = (
-				6C30E8A11C2E507C00882AB8 /* vk_msgSend_projUITests.m */,
-				6C30E8A31C2E507C00882AB8 /* Info.plist */,
-			);
-			path = vk_msgSend_projUITests;
 			sourceTree = "<group>";
 		};
 		6C30E8AF1C2E50AB00882AB8 /* vk_msgSend */ = {

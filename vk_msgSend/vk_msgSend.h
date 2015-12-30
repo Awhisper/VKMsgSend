@@ -10,14 +10,14 @@
 
 @protocol vk_msgSend <NSObject>
 
-+ (id)vk_callSelector:(SEL)selector error:(NSError*__autoreleasing*)error,...;
++ (id)vk_callSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
 
-+ (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...;
++ (id)vk_callSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
 
-- (id)vk_callSelector:(SEL)selector error:(NSError*__autoreleasing*)error,...;
+- (id)vk_callSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
 
-- (id)vk_callSelectorName:(NSString*)selName error:(NSError*__autoreleasing*)error,...;
+- (id)vk_callSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
 
-- (id)vk_callTest:(NSString*)selName,...;
+- (id)vk_callTest:(NSString *)selName,...;
 
 @end
