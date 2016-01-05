@@ -65,4 +65,10 @@ typedef void(^blockType)(void);
     }
 }
 
+-(void)testFunctionIDStar:(NSError **)error{
+    if (error) {
+        *error = [NSError errorWithDomain:@"xxxx" code:0 userInfo:nil];
+    }
+}
+
 @end

@@ -15,6 +15,16 @@
 
 #pragma mark : vk_nilObject
 
+@interface vk_pointer : NSObject
+
+@property (nonatomic) void *pointer;
+
+@end
+
+@implementation vk_pointer
+
+@end
+
 @interface vk_nilObject : NSObject
 
 @end
@@ -121,7 +131,6 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
                 NSString *selName = valObj;
                 SEL selValue = NSSelectorFromString(selName);
                 [invocation setArgument:&selValue atIndex:i];
-//                NSCAssert(NO, @"argument boxing wrong,selector is not supported");
             }
                 break;
             case '{':{
@@ -148,7 +157,9 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
             }
                 break;
             case '^':{
-                NSCAssert(NO, @"argument boxing wrong,pointer is not supported");
+                vk_pointer *value = valObj;
+                void* pointer = value.pointer;
+                [invocation setArgument:&pointer atIndex:i];
             }
                 break;
             case '#':{
@@ -316,8 +327,10 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
             }
                 break;
             case '^': {
-                vk_generateError(@"unsupported pointer argumenst",error);
-                return nil;
+                void *value = va_arg(argList, void**);
+                vk_pointer *pointerObj = [[vk_pointer alloc]init];
+                pointerObj.pointer = value;
+                [argumentsBoxingArray addObject:pointerObj];
             }
                 break;
             case '#': {
