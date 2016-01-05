@@ -42,4 +42,9 @@
     return @"hello";
 }
 
+-(NSString *)testFunctionWithSEL:(SEL)selector
+{
+    return NSStringFromSelector(selector);
+}
+
 @end

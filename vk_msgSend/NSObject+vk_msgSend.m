@@ -118,7 +118,10 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
                 VK_CALL_ARG_CASE('B', BOOL, boolValue)
 
             case ':':{
-                NSCAssert(NO, @"argument boxing wrong,selector is not supported");
+                NSString *selName = valObj;
+                SEL selValue = NSSelectorFromString(selName);
+                [invocation setArgument:&selValue atIndex:i];
+//                NSCAssert(NO, @"argument boxing wrong,selector is not supported");
             }
                 break;
             case '{':{
@@ -282,10 +285,9 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
                         vk_BOXING_ARG_CASE('B', int)
                 
             case ':': {
-                //                SEL value = va_arg(argList, SEL);
-                //                [invocation setArgument:&value atIndex:i];
-                vk_generateError(@"unsupported selector argumenst",error);
-                return nil;
+                SEL value = va_arg(argList, SEL);
+                NSString *selValueName = NSStringFromSelector(value);
+                [argumentsBoxingArray addObject:selValueName];
             }
                 break;
             case '{': {

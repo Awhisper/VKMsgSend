@@ -42,6 +42,8 @@
     NSValue *return5 = [abc vk_callSelector:@selector(testfunction:withB:withC:withE:) error:nil,4,3.5,@"haha", NSMakeRange(1, 3)];
     CGRect trueReturn5 = [return5 CGRectValue];
     //need CGRectValue
+    SEL argsel = @selector(testwoooo);
+    NSString* return6 = [abc vk_callSelector:@selector(testFunctionWithSEL:) error:nil,argsel];
     
     NSLog(@"that's all");
 }
