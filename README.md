@@ -93,4 +93,8 @@
 
 
 ##补充
-`block`,`id *`等持续添加支持中 
+`block`,`id *`,`SEL`都支持完毕
+
+但是 id* 我有点心虚，求code review
+
+顺带 还未支持参数带有 `Class`
