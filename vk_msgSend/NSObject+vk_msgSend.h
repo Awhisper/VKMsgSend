@@ -11,5 +11,4 @@
 
 @interface NSObject (vk_msgSend)
 
-
 @end

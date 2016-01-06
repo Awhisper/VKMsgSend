@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "vk_msgSend.h"
+#import "NSObject+vk_msgSend.h"
 
 @interface ViewController ()
 
@@ -52,11 +53,21 @@
     
     [abc vk_callSelector:@selector(testFunctionCallBlock) error:nil];
     
-    NSError* testerr;
-    void *a = &testerr;
-//    [abc vk_callSelector:@selector(testFunctionIDStar:) error:nil,&testerr];
+
+    
+    NSMutableArray* testerr = [[NSMutableArray alloc]init];
+    [abc vk_callSelector:@selector(testFunctionIDStar:) error:nil,&testerr];
+    
+    NSError* testerr2;
+    void* testerra = &testerr2;
+    [abc vk_callSelector:@selector(testFunctionError:) error:nil,&testerr2];
+    
+//    NSError* testerr3 = [NSError errorWithDomain:@"what the fuck" code:0 userInfo:nil];
+//    [abc vk_callSelector:@selector(testFunctionError:) error:nil,&testerr3];
     NSLog(@"that's all");
+    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

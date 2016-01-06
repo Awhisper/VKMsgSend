@@ -38,6 +38,7 @@
 static NSLock *_vkMethodSignatureLock;
 static NSMutableDictionary *_vkMethodSignatureCache;
 static vk_nilObject *vknilPointer = nil;
+static NSMutableDictionary *_vkNilPointerTempMemoryPool;
 
 static NSString *vk_extractStructName(NSString *typeEncodeString){
     
@@ -103,6 +104,8 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
     [invocation setTarget:target];
     [invocation setSelector:selector];
     
+    NSMutableArray* _markArray;
+    
     for (int i = 2; i< [methodSignature numberOfArguments]; i++) {
         const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
         id valObj = argsArr[i-2];
@@ -158,8 +161,27 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
                 break;
             case '^':{
                 vk_pointer *value = valObj;
-                __unsafe_unretained void* pointer = value.pointer;
-                [invocation setArgument:&pointer atIndex:i];
+                void* pointer = value.pointer;
+//                void** nilPointer = &pointer;
+//                id obj = *((__unsafe_unretained id *)pointer);
+//                if (!obj) {
+//                    [invocation setArgument:&nilPointer atIndex:i];
+                    if (argumentType[1] == '@') {
+                        if (!_vkNilPointerTempMemoryPool) {
+                            _vkNilPointerTempMemoryPool = [[NSMutableDictionary alloc] init];
+                        }
+                        if (!_markArray) {
+                            _markArray = [[NSMutableArray alloc] init];
+                        }
+                        memset(pointer, 0, sizeof(id));
+                        [_markArray addObject:valObj];
+                    }
+//                }
+//                else{
+                    [invocation setArgument:&pointer atIndex:i];
+//                }
+                
+                
             }
                 break;
             case '#':{
@@ -177,6 +199,19 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
     }
     
     [invocation invoke];
+    
+    if ([_markArray count] > 0) {
+        for (vk_pointer *pointerObj in _markArray) {
+            void *pointer = pointerObj.pointer;
+            id obj = *((__unsafe_unretained id *)pointer);
+            if (obj) {
+                @synchronized(_vkNilPointerTempMemoryPool) {
+                    [_vkNilPointerTempMemoryPool setObject:obj forKey:[NSNumber numberWithInteger:[(NSObject*)obj hash]]];
+                }
+            }
+        }
+    }
+    
     const char *returnType = [methodSignature methodReturnType];
     NSString *selName = vk_selectorName(selector);
     if (strncmp(returnType, "v", 1) != 0 ) {
@@ -409,6 +444,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
     if (!boxingArguments) {
         return nil;
     }
+    
     return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
 

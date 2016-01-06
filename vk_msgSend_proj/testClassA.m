@@ -65,7 +65,13 @@ typedef void(^blockType)(void);
     }
 }
 
--(void)testFunctionIDStar:(NSError **)error{
+-(void)testFunctionIDStar:(NSMutableArray **)error{
+    if (error) {
+        [*error addObject:@"aa"];
+    }
+}
+
+-(void)testFunctionError:(NSError **)error{
     if (error) {
         *error = [NSError errorWithDomain:@"xxxx" code:0 userInfo:nil];
     }
