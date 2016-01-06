@@ -158,7 +158,7 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
                 break;
             case '^':{
                 vk_pointer *value = valObj;
-                void* pointer = value.pointer;
+                __unsafe_unretained void* pointer = value.pointer;
                 [invocation setArgument:&pointer atIndex:i];
             }
                 break;

@@ -53,7 +53,8 @@
     [abc vk_callSelector:@selector(testFunctionCallBlock) error:nil];
     
     NSError* testerr;
-    [abc vk_callSelector:@selector(testFunctionIDStar:) error:nil,&testerr];
+    void *a = &testerr;
+//    [abc vk_callSelector:@selector(testFunctionIDStar:) error:nil,&testerr];
     NSLog(@"that's all");
 }
 
