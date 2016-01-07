@@ -65,9 +65,9 @@ typedef void(^blockType)(void);
     }
 }
 
--(void)testFunctionIDStar:(NSMutableArray **)error{
-    if (error) {
-        [*error addObject:@"aa"];
+-(void)testFunctionIDStar:(NSMutableArray **)arr{
+    if (arr) {
+        [*arr addObject:@"aa"];
     }
 }
 

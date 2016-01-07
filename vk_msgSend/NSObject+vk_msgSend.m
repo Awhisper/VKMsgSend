@@ -161,11 +161,9 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
                 break;
             case '^':{
                 vk_pointer *value = valObj;
-                void* pointer = value.pointer;
-//                void** nilPointer = &pointer;
-//                id obj = *((__unsafe_unretained id *)pointer);
-//                if (!obj) {
-//                    [invocation setArgument:&nilPointer atIndex:i];
+                void *pointer = value.pointer;
+                id obj = *((__unsafe_unretained id *)pointer);
+                if (!obj) {
                     if (argumentType[1] == '@') {
                         if (!_vkNilPointerTempMemoryPool) {
                             _vkNilPointerTempMemoryPool = [[NSMutableDictionary alloc] init];
@@ -173,15 +171,10 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
                         if (!_markArray) {
                             _markArray = [[NSMutableArray alloc] init];
                         }
-                        memset(pointer, 0, sizeof(id));
                         [_markArray addObject:valObj];
                     }
-//                }
-//                else{
-                    [invocation setArgument:&pointer atIndex:i];
-//                }
-                
-                
+                }
+                [invocation setArgument:&pointer atIndex:i];
             }
                 break;
             case '#':{

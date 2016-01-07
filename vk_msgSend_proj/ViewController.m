@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "vk_msgSend.h"
-#import "NSObject+vk_msgSend.h"
 
 @interface ViewController ()
 
@@ -22,50 +21,23 @@
     
     Class cls = NSClassFromString(@"testClassA");
     
-    [(id<vk_msgSend>)cls vk_callSelector:@selector(testfunction:withB:withH:) error:nil,4,3.5,@"haha"];
-    
     id<vk_msgSend> abc = [[cls alloc]init];
     
     NSError *err;
     
+    //this warning is ok Selector is in testClassA
     NSString *return1 = [abc vk_callSelector:@selector(testfunction:withB:) error:&err,4,3.5f];
-    
-    NSNumber *return2 = [[abc class] vk_callSelector:@selector(testfunction:withB:withH:) error:&err,4,3.5,@"haha"];
-    NSInteger tureReturn2 = [return2 integerValue];
-    // need intValue
-    
-    NSNumber *return3 = [abc vk_callSelectorName:@"testfunction:withB:withC:" error:&err,4,3.5,@"haha"];
+    NSLog(@"%@",return1);
+
+    NSNumber *return3 = [abc vk_callSelectorName:@"testfunction:withB:withC:" error:nil,4,3.5,@"haha"];
     NSInteger tureReturn3 = [return3 integerValue];
-    // need intValue
+    NSLog(@"%@",@(tureReturn3));
     
     NSString *return4 = [abc vk_callSelectorName:@"testfunction:withB:withC:withD:" error:nil,4,3.5,nil, CGRectMake(10, 10, 10, 10)];
+    NSLog(@"%@",return4);
     
-    NSValue *return5 = [abc vk_callSelector:@selector(testfunction:withB:withC:withE:) error:nil,4,3.5,@"haha", NSMakeRange(1, 3)];
-    CGRect trueReturn5 = [return5 CGRectValue];
-    //need CGRectValue
-    SEL argsel = @selector(testwoooo);
-    NSString* return6 = [abc vk_callSelector:@selector(testFunctionWithSEL:) error:nil,argsel];
-    //写个匿名block 然后传进去
-    void(^tempblock)(void)  = ^(void){
-        NSLog(@"==== block run ====");
-    };
-    [abc vk_callSelector:@selector(testFunctionWithBlock:) error:nil,tempblock];
-    
-    [abc vk_callSelector:@selector(testFunctionCallBlock) error:nil];
-    
-
-    
-    NSMutableArray* testerr = [[NSMutableArray alloc]init];
-    [abc vk_callSelector:@selector(testFunctionIDStar:) error:nil,&testerr];
-    
-    NSError* testerr2;
-    void* testerra = &testerr2;
-    [abc vk_callSelector:@selector(testFunctionError:) error:nil,&testerr2];
-    
-//    NSError* testerr3 = [NSError errorWithDomain:@"what the fuck" code:0 userInfo:nil];
-//    [abc vk_callSelector:@selector(testFunctionError:) error:nil,&testerr3];
-    NSLog(@"that's all");
-    
+    NSLog(@"see more test case in XCTest Target");
+    NSLog(@"vk_msgSend_projTests");
 }
 
 

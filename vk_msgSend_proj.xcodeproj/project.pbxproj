@@ -15,7 +15,18 @@
 		6C30E88C1C2E507B00882AB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C30E88A1C2E507B00882AB8 /* LaunchScreen.storyboard */; };
 		6C30E8B21C2E50AB00882AB8 /* NSObject+vk_msgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C30E8B11C2E50AB00882AB8 /* NSObject+vk_msgSend.m */; };
 		6C30E8B61C2E52AB00882AB8 /* testClassA.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C30E8B51C2E52AB00882AB8 /* testClassA.m */; };
+		6CF7F85A1C3E9EC7002850B8 /* vk_msgSend_projTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF7F8591C3E9EC7002850B8 /* vk_msgSend_projTests.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6CF7F85C1C3E9EC7002850B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6C30E8711C2E507B00882AB8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6C30E8781C2E507B00882AB8;
+			remoteInfo = vk_msgSend_proj;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6C30E8791C2E507B00882AB8 /* vk_msgSend_proj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vk_msgSend_proj.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -33,10 +44,20 @@
 		6C30E8B31C2E50D300882AB8 /* vk_msgSend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vk_msgSend.h; sourceTree = "<group>"; };
 		6C30E8B41C2E52AB00882AB8 /* testClassA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testClassA.h; sourceTree = "<group>"; };
 		6C30E8B51C2E52AB00882AB8 /* testClassA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testClassA.m; sourceTree = "<group>"; };
+		6CF7F8571C3E9EC7002850B8 /* vk_msgSend_projTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vk_msgSend_projTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CF7F8591C3E9EC7002850B8 /* vk_msgSend_projTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = vk_msgSend_projTests.m; sourceTree = "<group>"; };
+		6CF7F85B1C3E9EC7002850B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6C30E8761C2E507B00882AB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CF7F8541C3E9EC7002850B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -51,6 +72,7 @@
 			children = (
 				6C30E8AF1C2E50AB00882AB8 /* vk_msgSend */,
 				6C30E87B1C2E507B00882AB8 /* vk_msgSend_proj */,
+				6CF7F8581C3E9EC7002850B8 /* vk_msgSend_projTests */,
 				6C30E87A1C2E507B00882AB8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				6C30E8791C2E507B00882AB8 /* vk_msgSend_proj.app */,
+				6CF7F8571C3E9EC7002850B8 /* vk_msgSend_projTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,6 +122,15 @@
 			path = vk_msgSend;
 			sourceTree = "<group>";
 		};
+		6CF7F8581C3E9EC7002850B8 /* vk_msgSend_projTests */ = {
+			isa = PBXGroup;
+			children = (
+				6CF7F8591C3E9EC7002850B8 /* vk_msgSend_projTests.m */,
+				6CF7F85B1C3E9EC7002850B8 /* Info.plist */,
+			);
+			path = vk_msgSend_projTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -119,6 +151,24 @@
 			productReference = 6C30E8791C2E507B00882AB8 /* vk_msgSend_proj.app */;
 			productType = "com.apple.product-type.application";
 		};
+		6CF7F8561C3E9EC7002850B8 /* vk_msgSend_projTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6CF7F8601C3E9EC7002850B8 /* Build configuration list for PBXNativeTarget "vk_msgSend_projTests" */;
+			buildPhases = (
+				6CF7F8531C3E9EC7002850B8 /* Sources */,
+				6CF7F8541C3E9EC7002850B8 /* Frameworks */,
+				6CF7F8551C3E9EC7002850B8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6CF7F85D1C3E9EC7002850B8 /* PBXTargetDependency */,
+			);
+			name = vk_msgSend_projTests;
+			productName = vk_msgSend_projTests;
+			productReference = 6CF7F8571C3E9EC7002850B8 /* vk_msgSend_projTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -130,6 +180,10 @@
 				TargetAttributes = {
 					6C30E8781C2E507B00882AB8 = {
 						CreatedOnToolsVersion = 7.2;
+					};
+					6CF7F8561C3E9EC7002850B8 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = 6C30E8781C2E507B00882AB8;
 					};
 				};
 			};
@@ -147,6 +201,7 @@
 			projectRoot = "";
 			targets = (
 				6C30E8781C2E507B00882AB8 /* vk_msgSend_proj */,
+				6CF7F8561C3E9EC7002850B8 /* vk_msgSend_projTests */,
 			);
 		};
 /* End PBXProject section */
@@ -159,6 +214,13 @@
 				6C30E88C1C2E507B00882AB8 /* LaunchScreen.storyboard in Resources */,
 				6C30E8891C2E507B00882AB8 /* Assets.xcassets in Resources */,
 				6C30E8871C2E507B00882AB8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CF7F8551C3E9EC7002850B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,7 +239,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6CF7F8531C3E9EC7002850B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6CF7F85A1C3E9EC7002850B8 /* vk_msgSend_projTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6CF7F85D1C3E9EC7002850B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6C30E8781C2E507B00882AB8 /* vk_msgSend_proj */;
+			targetProxy = 6CF7F85C1C3E9EC7002850B8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6C30E8851C2E507B00882AB8 /* Main.storyboard */ = {
@@ -305,6 +383,30 @@
 			};
 			name = Release;
 		};
+		6CF7F85E1C3E9EC7002850B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = vk_msgSend_projTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.awhisper.test.vk-msgSend-projTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vk_msgSend_proj.app/vk_msgSend_proj";
+			};
+			name = Debug;
+		};
+		6CF7F85F1C3E9EC7002850B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = vk_msgSend_projTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.awhisper.test.vk-msgSend-projTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vk_msgSend_proj.app/vk_msgSend_proj";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -325,6 +427,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6CF7F8601C3E9EC7002850B8 /* Build configuration list for PBXNativeTarget "vk_msgSend_projTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6CF7F85E1C3E9EC7002850B8 /* Debug */,
+				6CF7F85F1C3E9EC7002850B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
