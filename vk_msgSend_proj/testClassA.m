@@ -77,4 +77,10 @@ typedef void(^blockType)(void);
     }
 }
 
+-(BOOL)testFunctionObject:(id)obj isKindOfClass:(Class)cls
+{
+    BOOL ret = [obj isKindOfClass:cls];
+    return ret;
+}
+
 @end

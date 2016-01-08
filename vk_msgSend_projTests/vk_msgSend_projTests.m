@@ -77,6 +77,13 @@
     [abc vk_callSelector:@selector(testFunctionIDStar:) error:nil,&testerr];
     XCTAssert(testerr.count>0);
     
+    
+    NSString *teststr = @"hello";
+    Class stringcls = [teststr class];
+    NSNumber *isCls = [abc vk_callSelectorName:@"testFunctionObject:isKindOfClass:" error:nil,teststr,stringcls];
+    BOOL isClsBool = [isCls boolValue];
+    XCTAssertEqual(isClsBool, 1);
+    
 //    NSError* testerr2;
 //    [abc vk_callSelector:@selector(testFunctionError:) error:nil,&testerr2];
 //    XCTAssert(testerr2);

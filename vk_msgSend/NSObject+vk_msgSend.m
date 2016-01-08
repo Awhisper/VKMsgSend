@@ -178,7 +178,7 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
             }
                 break;
             case '#':{
-                NSCAssert(NO, @"argument boxing wrong,class is not supported");
+                [invocation setArgument:&valObj atIndex:i];
             }
                 break;
             default:{
@@ -362,8 +362,10 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
             }
                 break;
             case '#': {
-                vk_generateError(@"unsupported class argumenst",error);
-                return nil;
+                Class value = va_arg(argList, Class);
+                [argumentsBoxingArray addObject:(id)value];
+//                vk_generateError(@"unsupported class argumenst",error);
+//                return nil;
             }
                 break;
             case '@':{
