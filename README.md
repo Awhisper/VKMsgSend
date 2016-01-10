@@ -97,4 +97,4 @@
 
 但是 id* 我有点心虚，求code review
 
-顺带 还未支持参数带有 `Class`
+`Class` 也支持完毕
