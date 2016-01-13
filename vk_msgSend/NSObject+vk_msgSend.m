@@ -194,7 +194,7 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
             void *pointer = pointerObj.pointer;
             id obj = *((__unsafe_unretained id *)pointer);
             if (obj) {
-//                CFRetain((__bridge CFTypeRef)(obj));
+                CFRetain((__bridge CFTypeRef)(obj));
             }
         }
     }
