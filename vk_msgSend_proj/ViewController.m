@@ -36,9 +36,13 @@
     NSString *return4 = [abc vk_callSelectorName:@"testfunction:withB:withC:withD:" error:nil,4,3.5,nil, CGRectMake(10, 10, 10, 10)];
     NSLog(@"%@",return4);
     
+    NSError* testerr2;
+    [abc vk_callSelectorName:@"testFunctionError:" error:nil,&testerr2];
     
     NSLog(@"see more test case in XCTest Target");
     NSLog(@"vk_msgSend_projTests");
+    
+    
 }
 
 

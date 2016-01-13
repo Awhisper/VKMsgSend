@@ -38,7 +38,6 @@
 static NSLock *_vkMethodSignatureLock;
 static NSMutableDictionary *_vkMethodSignatureCache;
 static vk_nilObject *vknilPointer = nil;
-static NSMutableDictionary *_vkNilPointerTempMemoryPool;
 
 static NSString *vk_extractStructName(NSString *typeEncodeString){
     
@@ -165,9 +164,6 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
                 id obj = *((__unsafe_unretained id *)pointer);
                 if (!obj) {
                     if (argumentType[1] == '@') {
-                        if (!_vkNilPointerTempMemoryPool) {
-                            _vkNilPointerTempMemoryPool = [[NSMutableDictionary alloc] init];
-                        }
                         if (!_markArray) {
                             _markArray = [[NSMutableArray alloc] init];
                         }
@@ -198,9 +194,7 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
             void *pointer = pointerObj.pointer;
             id obj = *((__unsafe_unretained id *)pointer);
             if (obj) {
-                @synchronized(_vkNilPointerTempMemoryPool) {
-                    [_vkNilPointerTempMemoryPool setObject:obj forKey:[NSNumber numberWithInteger:[(NSObject*)obj hash]]];
-                }
+//                CFRetain((__bridge CFTypeRef)(obj));
             }
         }
     }
