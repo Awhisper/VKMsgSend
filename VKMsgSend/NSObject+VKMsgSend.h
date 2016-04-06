@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSObject (VKMåsgSend)
+@interface NSObject (VKMsgSend)
 
-+ (id)vk_callSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
++ (id)VKCallSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
 
-+ (id)vk_callSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
++ (id)VKCallSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
 
-- (id)vk_callSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
 
-- (id)vk_callSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
 
 @end
