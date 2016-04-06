@@ -14,8 +14,8 @@
 
 + (id)VKCallSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
 
-- (id)VKCcallSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
 
-- (id)VKCcallSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
 
 @end
