@@ -15,7 +15,7 @@
 		6CB983B51C97E54A0057AB1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CB983B31C97E54A0057AB1C /* LaunchScreen.storyboard */; };
 		6CB983C01C97E54A0057AB1C /* VKMsgSend_ProjTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CB983BF1C97E54A0057AB1C /* VKMsgSend_ProjTests.m */; };
 		6CB983CB1C97E54A0057AB1C /* VKMsgSend_ProjUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CB983CA1C97E54A0057AB1C /* VKMsgSend_ProjUITests.m */; };
-		6CB983E01C97E62A0057AB1C /* NSObject+VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CB983DE1C97E62A0057AB1C /* NSObject+VKMsgSend.m */; };
+		6CB983E01C97E62A0057AB1C /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CB983DE1C97E62A0057AB1C /* VKMsgSend.m */; };
 		6CB983E31C97E6CA0057AB1C /* testClassA.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CB983E21C97E6CA0057AB1C /* testClassA.m */; };
 /* End PBXBuildFile section */
 
@@ -53,9 +53,8 @@
 		6CB983C61C97E54A0057AB1C /* VKMsgSend_ProjUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VKMsgSend_ProjUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CB983CA1C97E54A0057AB1C /* VKMsgSend_ProjUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VKMsgSend_ProjUITests.m; sourceTree = "<group>"; };
 		6CB983CC1C97E54A0057AB1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6CB983DD1C97E62A0057AB1C /* NSObject+VKMsgSend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+VKMsgSend.h"; sourceTree = "<group>"; };
-		6CB983DE1C97E62A0057AB1C /* NSObject+VKMsgSend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+VKMsgSend.m"; sourceTree = "<group>"; };
-		6CB983DF1C97E62A0057AB1C /* VKMsgSend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKMsgSend.h; sourceTree = "<group>"; };
+		6CB983DD1C97E62A0057AB1C /* VKMsgSend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKMsgSend.h; sourceTree = "<group>"; };
+		6CB983DE1C97E62A0057AB1C /* VKMsgSend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKMsgSend.m; sourceTree = "<group>"; };
 		6CB983E11C97E6CA0057AB1C /* testClassA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testClassA.h; sourceTree = "<group>"; };
 		6CB983E21C97E6CA0057AB1C /* testClassA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testClassA.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,9 +152,8 @@
 		6CB983D81C97E56D0057AB1C /* VKMsgSend */ = {
 			isa = PBXGroup;
 			children = (
-				6CB983DD1C97E62A0057AB1C /* NSObject+VKMsgSend.h */,
-				6CB983DE1C97E62A0057AB1C /* NSObject+VKMsgSend.m */,
-				6CB983DF1C97E62A0057AB1C /* VKMsgSend.h */,
+				6CB983DD1C97E62A0057AB1C /* VKMsgSend.h */,
+				6CB983DE1C97E62A0057AB1C /* VKMsgSend.m */,
 			);
 			path = VKMsgSend;
 			sourceTree = "<group>";
@@ -290,7 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6CB983E01C97E62A0057AB1C /* NSObject+VKMsgSend.m in Sources */,
+				6CB983E01C97E62A0057AB1C /* VKMsgSend.m in Sources */,
 				6CB983AD1C97E54A0057AB1C /* ViewController.m in Sources */,
 				6CB983AA1C97E54A0057AB1C /* AppDelegate.m in Sources */,
 				6CB983E31C97E6CA0057AB1C /* testClassA.m in Sources */,
@@ -520,6 +518,7 @@
 				6CB983D11C97E54A0057AB1C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6CB983D21C97E54A0057AB1C /* Build configuration list for PBXNativeTarget "VKMsgSend_ProjTests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +527,7 @@
 				6CB983D41C97E54A0057AB1C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6CB983D51C97E54A0057AB1C /* Build configuration list for PBXNativeTarget "VKMsgSend_ProjUITests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +536,7 @@
 				6CB983D71C97E54A0057AB1C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

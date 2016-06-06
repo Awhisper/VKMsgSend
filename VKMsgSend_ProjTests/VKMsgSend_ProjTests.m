@@ -34,10 +34,16 @@
     
     Class cls = NSClassFromString(@"testClassA");
     
-    NSNumber* clsreturn = [(id<VKMsgSend>)cls VKCallSelector:@selector(testfunction:withB:withH:) error:nil,4,3.5,@"haha"];
+    NSNumber* clsreturn = [(id)cls VKCallSelector:@selector(testfunction:withB:withH:) error:nil,4,3.5,@"haha"];
     XCTAssertEqual([clsreturn intValue], 1);
     
-    id<VKMsgSend> abc = [[cls alloc]init];
+    NSNumber* clsreturn2 = [@"testClassA" VKCallClassSelector:@selector(testfunction:withB:withH:) error:nil,4,3.5,@"haha"];
+    XCTAssertEqual([clsreturn2 intValue], 1);
+    
+    NSNumber* clsreturn3 = [@"testClassA" VKCallClassSelectorName:@"testfunction:withB:withH:" error:nil,4,3.5,@"haha"];
+    XCTAssertEqual([clsreturn3 intValue], 1);
+    
+    id abc = [[cls alloc]init];
     
     NSError *err;
     

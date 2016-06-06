@@ -6,7 +6,7 @@
 //  Copyright © 2015年 Awhisper. All rights reserved.
 //
 
-#import "NSObject+VKMsgSend.h"
+#import "VKMsgSend.h"
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIApplication.h>
@@ -435,6 +435,45 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
     }
     
     return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
+}
+
+@end
+
+@implementation NSString (VKMsgSend)
+
+
+-(id)VKCallClassSelector:(SEL)selector error:(NSError *__autoreleasing *)error, ...
+{
+    Class clazz = NSClassFromString(self);
+    
+    va_list argList;
+    va_start(argList, error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, clazz, selector, error);
+    va_end(argList);
+    
+    if (!boxingArguments) {
+        return nil;
+    }
+    
+    return vk_targetCallSelectorWithArgumentError(clazz, selector, boxingArguments, error);
+}
+
+
+-(id)VKCallClassSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error, ...
+{
+    Class clazz = NSClassFromString(self);
+    SEL selector = NSSelectorFromString(selName);
+    
+    va_list argList;
+    va_start(argList, error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, clazz, selector, error);
+    va_end(argList);
+    
+    if (!boxingArguments) {
+        return nil;
+    }
+    
+    return vk_targetCallSelectorWithArgumentError(clazz, selector, boxingArguments, error);
 }
 
 @end

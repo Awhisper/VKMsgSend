@@ -21,7 +21,7 @@
     
     Class cls = NSClassFromString(@"testClassA");
     
-    id<VKMsgSend> abc = [[cls alloc]init];
+    id abc = [[cls alloc]init];
     
     NSError *err;
     
