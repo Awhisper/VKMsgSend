@@ -43,6 +43,10 @@
     NSNumber* clsreturn3 = [@"testClassA" VKCallClassSelectorName:@"testfunction:withB:withH:" error:nil,4,3.5,@"haha"];
     XCTAssertEqual([clsreturn3 intValue], 1);
     
+    NSError *clsreturnError;
+    NSNumber* clsreturn4 = [@"testClassAA" VKCallClassSelectorName:@"testfunction:withB:withH:" error:&clsreturnError,4,3.5,@"haha"];
+    XCTAssert(clsreturnError);
+    
     id abc = [[cls alloc]init];
     
     NSError *err;

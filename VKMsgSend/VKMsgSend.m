@@ -91,7 +91,7 @@ static NSMethodSignature *vk_getMethodSignature(Class cls, SEL selector){
 
 static void vk_generateError(NSString *errorInfo, NSError **error){
     if (error) {
-        *error = [NSError errorWithDomain:@"message send reciver is nil" code:0 userInfo:nil];
+        *error = [NSError errorWithDomain:errorInfo code:0 userInfo:nil];
     }
 }
 
@@ -444,36 +444,47 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
 
 -(id)VKCallClassSelector:(SEL)selector error:(NSError *__autoreleasing *)error, ...
 {
-    Class clazz = NSClassFromString(self);
+    Class cls = NSClassFromString(self);
+    if (!cls) {
+        NSString* errorStr = [NSString stringWithFormat:@"unrecognized className (%@)", self];
+        vk_generateError(errorStr,error);
+        return nil;
+    }
     
     va_list argList;
     va_start(argList, error);
-    NSArray* boxingArguments = vk_targetBoxingArguments(argList, clazz, selector, error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, cls, selector, error);
     va_end(argList);
     
     if (!boxingArguments) {
         return nil;
     }
     
-    return vk_targetCallSelectorWithArgumentError(clazz, selector, boxingArguments, error);
+    return vk_targetCallSelectorWithArgumentError(cls, selector, boxingArguments, error);
 }
 
 
 -(id)VKCallClassSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error, ...
 {
-    Class clazz = NSClassFromString(self);
+    Class cls = NSClassFromString(self);
+    if (!cls) {
+        NSString* errorStr = [NSString stringWithFormat:@"unrecognized className (%@)", self];
+        vk_generateError(errorStr,error);
+        return nil;
+    }
+    
     SEL selector = NSSelectorFromString(selName);
     
     va_list argList;
     va_start(argList, error);
-    NSArray* boxingArguments = vk_targetBoxingArguments(argList, clazz, selector, error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, cls, selector, error);
     va_end(argList);
     
     if (!boxingArguments) {
         return nil;
     }
     
-    return vk_targetCallSelectorWithArgumentError(clazz, selector, boxingArguments, error);
+    return vk_targetCallSelectorWithArgumentError(cls, selector, boxingArguments, error);
 }
 
 @end
