@@ -43,6 +43,14 @@
     NSNumber* clsreturn3 = [@"testClassA" VKCallClassSelectorName:@"testfunction:withB:withH:" error:nil,4,3.5,@"haha"];
     XCTAssertEqual([clsreturn3 intValue], 1);
     
+    
+    
+    NSNumber* clsallocreturn1 = [@"testClassA" VKCallClassAllocInitSelector:@selector(testfunction:withB:withC:) error:nil,4,3.5,@"haha"];
+    XCTAssertEqual([clsallocreturn1 intValue], 1);
+    
+    NSNumber* clsallocreturn2 = [@"testClassA" VKCallClassAllocInitSelectorName:@"testfunction:withB:withC:" error:nil,4,3.5,@"haha"];
+    XCTAssertEqual([clsallocreturn2 intValue], 1);
+    
     NSError *clsreturnError;
     NSNumber* clsreturn4 = [@"testClassAA" VKCallClassSelectorName:@"testfunction:withB:withH:" error:&clsreturnError,4,3.5,@"haha"];
     XCTAssert(clsreturnError);

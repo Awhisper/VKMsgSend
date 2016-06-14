@@ -487,5 +487,51 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
     return vk_targetCallSelectorWithArgumentError(cls, selector, boxingArguments, error);
 }
 
+-(id)VKCallClassAllocInitSelector:(SEL)selector error:(NSError *__autoreleasing *)error, ...
+{
+    Class cls = NSClassFromString(self);
+    if (!cls) {
+        NSString* errorStr = [NSString stringWithFormat:@"unrecognized className (%@)", self];
+        vk_generateError(errorStr,error);
+        return nil;
+    }
+    
+    va_list argList;
+    va_start(argList, error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, cls, selector, error);
+    va_end(argList);
+    
+    if (!boxingArguments) {
+        return nil;
+    }
+    
+    id allocObj = [cls alloc];
+    return vk_targetCallSelectorWithArgumentError(allocObj, selector, boxingArguments, error);
+}
+
+-(id)VKCallClassAllocInitSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error, ...
+{
+    Class cls = NSClassFromString(self);
+    if (!cls) {
+        NSString* errorStr = [NSString stringWithFormat:@"unrecognized className (%@)", self];
+        vk_generateError(errorStr,error);
+        return nil;
+    }
+    
+    SEL selector = NSSelectorFromString(selName);
+    
+    va_list argList;
+    va_start(argList, error);
+    NSArray* boxingArguments = vk_targetBoxingArguments(argList, cls, selector, error);
+    va_end(argList);
+    
+    if (!boxingArguments) {
+        return nil;
+    }
+    
+    id allocObj = [cls alloc];
+    return vk_targetCallSelectorWithArgumentError(allocObj, selector, boxingArguments, error);
+}
+
 @end
 
