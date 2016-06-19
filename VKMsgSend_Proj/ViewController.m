@@ -59,7 +59,7 @@
     id abc = [[cls alloc]init];
     
     //-(NSString*)testfunction:(int)num withB:(float)boolv
-    NSString * result = [abc performSelector:@selector(testfunction:withB:) withObject:@4.5 withObject:@3];
+    NSString * result = [abc performSelector:@selector(testfunction:withB:) withObject:@4 withObject:@3.5];
     //并且只支持id，如果你敢把基础数值类型封装成number传进去，数值还是错乱的
     //这样代码跑进去  int 传了个NSNumber进去 函数内指针全乱，参数值都飞了
     
@@ -96,7 +96,7 @@
     //如果是使用类方法，还可以直接通过类名NSString
     [@"testClassA" VKCallClassSelectorName:@"testfunction:withB:withH" error:&error,4,3.5,@"aaa"];
     
-    //如果是实例方法，可以直接通过类名NSString，调用init selector
+    //如果是实例方法，可以直接通过类名NSString，调用init selector，哪怕initWithXX:XX:等自定义的初始化函数都可以
     id abcc = [@"testClassA" VKCallClassAllocInitSelectorName:@"init" error:nil];
     //省去了手写NSClassFromString 的事情
     
