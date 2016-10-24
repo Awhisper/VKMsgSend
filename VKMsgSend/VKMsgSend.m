@@ -45,7 +45,7 @@ static NSString *vk_extractStructName(NSString *typeEncodeString){
     NSString *typeString = array[0];
     __block int firstVaildIndex = 0;
     [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        char c = [typeEncodeString characterAtIndex:idx];
+        unichar c = [typeEncodeString characterAtIndex:idx];
         if (c=='{'||c=='_') {
             firstVaildIndex++;
         }else{
@@ -105,7 +105,7 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
     
     NSMutableArray* _markArray;
     
-    for (int i = 2; i< [methodSignature numberOfArguments]; i++) {
+    for (NSUInteger i = 2; i< [methodSignature numberOfArguments]; i++) {
         const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
         id valObj = argsArr[i-2];
         switch (argumentType[0]=='r'?argumentType[1]:argumentType[0]) {
@@ -292,7 +292,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
     }
     NSMutableArray *argumentsBoxingArray = [[NSMutableArray alloc]init];
     
-    for (int i = 2; i < [methodSignature numberOfArguments]; i++) {
+    for (NSUInteger i = 2; i < [methodSignature numberOfArguments]; i++) {
         const char *argumentType = [methodSignature getArgumentTypeAtIndex:i];
         switch (argumentType[0] == 'r' ? argumentType[1] : argumentType[0]) {
                 
