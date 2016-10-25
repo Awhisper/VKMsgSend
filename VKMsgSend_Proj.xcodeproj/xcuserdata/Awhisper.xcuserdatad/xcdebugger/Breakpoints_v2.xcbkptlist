@@ -16,7 +16,7 @@
             startingLineNumber = "470"
             endingLineNumber = "470"
             landmarkName = "-VKCallClassSelectorName:error:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -32,7 +32,7 @@
             startingLineNumber = "514"
             endingLineNumber = "514"
             landmarkName = "-VKCallClassAllocInitSelectorName:error:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -48,7 +48,7 @@
             startingLineNumber = "295"
             endingLineNumber = "295"
             landmarkName = "vk_targetBoxingArguments()"
-            landmarkType = "7">
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VKMsgSend_Proj/ViewController.m"
-            timestampString = "487754727.220181"
+            timestampString = "499057716.365705"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VKMsgSend_Proj/ViewController.m"
-            timestampString = "487755232.814221"
+            timestampString = "499057716.365705"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "-msgsendShow"
             landmarkType = "7">
          </BreakpointContent>

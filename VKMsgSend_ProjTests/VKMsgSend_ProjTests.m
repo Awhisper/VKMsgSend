@@ -16,6 +16,11 @@
 
 @implementation VKMsgSend_projTests
 
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
+
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -53,6 +58,7 @@
     
     NSError *clsreturnError;
     NSNumber* clsreturn4 = [@"testClassAA" VKCallClassSelectorName:@"testfunction:withB:withH:" error:&clsreturnError,4,3.5,@"haha"];
+    XCTAssert(!clsreturn4);
     XCTAssert(clsreturnError);
     
     id abc = [[cls alloc]init];
@@ -114,4 +120,6 @@
     }];
 }
 
+
+#pragma clang diagnostic pop
 @end

@@ -15,6 +15,11 @@
 
 @implementation ViewController
 
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -50,7 +55,6 @@
     [self vkshow];
 }
 
-
 -(void)performShow
 {
     
@@ -60,6 +64,7 @@
     
     //-(NSString*)testfunction:(int)num withB:(float)boolv
     NSString * result = [abc performSelector:@selector(testfunction:withB:) withObject:@4 withObject:@3.5];
+    NSLog(@"%@",result);
     //并且只支持id，如果你敢把基础数值类型封装成number传进去，数值还是错乱的
     //这样代码跑进去  int 传了个NSNumber进去 函数内指针全乱，参数值都飞了
     
@@ -79,7 +84,7 @@
     
     //看到没必须这么费劲的写一坨C语言的函数指针强转才可以
     
-    NSLog(@"11");
+    NSLog(@"%@",result2);
 }
 
 -(void)vkshow
@@ -98,11 +103,13 @@
     
     //如果是实例方法，可以直接通过类名NSString，调用init selector，哪怕initWithXX:XX:等自定义的初始化函数都可以
     id abcc = [@"testClassA" VKCallClassAllocInitSelectorName:@"init" error:nil];
+    NSLog(@"%@",abcc);
     //省去了手写NSClassFromString 的事情
     
 }
 
 
+#pragma clang diagnostic pop
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
