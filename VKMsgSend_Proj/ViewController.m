@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "VKMsgSend.h"
-#import <objc/runtime.h>
+#import <objc/message.h>
 @interface ViewController ()
 
 @end
@@ -72,9 +72,9 @@
     Class cls = NSClassFromString(@"testClassA");
     
     id abc = [[cls alloc]init];
-    NSString *result = objc_msgSend(abc, @selector(testfunction:withB:), 4, 3.5);
+//    NSString *result = objc_msgSend(abc, @selector(testfunction:withB:), 4, 3.5);
     
-    //很抱歉这样的方法，看着用的很方便，但是在iOS 64位下会直接崩溃
+    //很抱歉上面这样的方法，看着用的很方便，但是在iOS 64位下会直接崩溃，xcode8下是直接无法编译
     NSString *result2 =  ((NSString* (*)(id, SEL, int,float))objc_msgSend)(abc, @selector(testfunction:withB:), 4, 3.5);
     
     //看到没必须这么费劲的写一坨C语言的函数指针强转才可以
