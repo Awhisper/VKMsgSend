@@ -63,6 +63,10 @@ static NSString *vk_selectorName(SEL selector){
 
 static NSMethodSignature *vk_getMethodSignature(Class cls, SEL selector){
     
+    if (!_vkMethodSignatureLock) {
+        _vkMethodSignatureLock =  [[NSLock alloc] init];
+    }
+    
     [_vkMethodSignatureLock lock];
     
     if (!_vkMethodSignatureCache) {
