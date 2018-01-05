@@ -108,9 +108,12 @@
     BOOL isClsBool = [isCls boolValue];
     XCTAssertEqual(isClsBool, 1);
     
-//    NSError* testerr2;
-//    [abc VKCallSelector:@selector(testFunctionError:) error:nil,&testerr2];
-//    XCTAssert(testerr2);
+    NSError* testerr2;
+    [abc VKCallSelector:@selector(testFunctionError:) error:nil,&testerr2];
+    XCTAssert(testerr2);
+    
+    [abc VKCallSelector:@selector(testFunctionError:) error:nil,nil];
+    XCTAssert(YES);
 }
 
 - (void)testPerformanceExample {

@@ -163,18 +163,22 @@ static id vk_targetCallSelectorWithArgumentError(id target, SEL selector, NSArra
             }
                 break;
             case '^':{
-                vk_pointer *value = valObj;
-                void *pointer = value.pointer;
-                id obj = *((__unsafe_unretained id *)pointer);
-                if (!obj) {
-                    if (argumentType[1] == '@') {
-                        if (!_markArray) {
-                            _markArray = [[NSMutableArray alloc] init];
+                if ([valObj isKindOfClass:[vk_nilObject class]]) {
+                    [invocation setArgument:&vknilPointer atIndex:i];
+                }else{
+                    vk_pointer *value = valObj;
+                    void *pointer = value.pointer;
+                    id obj = *((__unsafe_unretained id *)pointer);
+                    if (!obj) {
+                        if (argumentType[1] == '@') {
+                            if (!_markArray) {
+                                _markArray = [[NSMutableArray alloc] init];
+                            }
+                            [_markArray addObject:valObj];
                         }
-                        [_markArray addObject:valObj];
                     }
+                    [invocation setArgument:&pointer atIndex:i];
                 }
-                [invocation setArgument:&pointer atIndex:i];
             }
                 break;
             case '#':{
@@ -354,9 +358,13 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
                 break;
             case '^': {
                 void *value = va_arg(argList, void**);
-                vk_pointer *pointerObj = [[vk_pointer alloc]init];
-                pointerObj.pointer = value;
-                [argumentsBoxingArray addObject:pointerObj];
+                if (!value) {
+                    [argumentsBoxingArray addObject:[vk_nilObject new]];
+                }else{
+                    vk_pointer *pointerObj = [[vk_pointer alloc]init];
+                    pointerObj.pointer = value;
+                    [argumentsBoxingArray addObject:pointerObj];
+                }
             }
                 break;
             case '#': {

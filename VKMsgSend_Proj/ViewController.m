@@ -47,6 +47,8 @@
     NSLog(@"see more test case in XCTest Target");
     NSLog(@"vk_msgSend_projTests");
     
+    [abc VKCallSelector:@selector(testFunctionError:) error:nil,nil];
+    
     //这是一段展示 performselector 缺点和不足的代码，有注释中文解释
     [self performShow];
     //这是一段展示 objc_msgsend 缺点和不足的代码，有注释和中文解释
