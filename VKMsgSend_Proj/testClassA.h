@@ -10,4 +10,6 @@
 
 @interface testClassA : NSObject
 
+-(instancetype)initWithParams:(NSDictionary *)dic;
+
 @end

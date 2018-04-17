@@ -14,9 +14,22 @@ typedef void(^blockType)(void);
 
 @property(nonatomic,copy) blockType block;
 
+@property(nonatomic,copy) NSMutableDictionary *dic;
+
 @end
 
 @implementation testClassA
+
+-(instancetype)initWithParams:(NSDictionary *)dic{
+    self = [super init];
+    if (self) {
+        void(^callback)(void) = [dic objectForKey:@"callback"];
+        if (callback) {
+            callback();
+        }
+    }
+    return self;
+}
 
 +(NSInteger)testfunction:(int)num withB:(float)boolv withH:(NSString*)str{
     return 1;

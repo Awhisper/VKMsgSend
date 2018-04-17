@@ -55,6 +55,8 @@
     [self msgsendShow];
     //这是对比展示 VKMsgSend的代码
     [self vkshow];
+    
+    [self issueTest];
 }
 
 -(void)performShow
@@ -108,6 +110,16 @@
     NSLog(@"%@",abcc);
     //省去了手写NSClassFromString 的事情
     
+}
+
+-(void)issueTest{
+    //写个匿名block 然后传进去
+    void(^tempblock)(void)  = ^(void){
+        NSLog(@"==== block run ====");
+    };
+    NSDictionary *params =@{@"callback":[tempblock copy]};
+    NSError *error;
+    id result = [@"testClassA" VKCallClassAllocInitSelectorName:@"initWithParams:" error:&error, params, nil];
 }
 
 
