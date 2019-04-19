@@ -11,24 +11,24 @@
 
 @interface NSObject (VKMsgSend)
 
-+ (id)VKCallSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
++ (id)VKCallSelector:(SEL)selector err:(NSError *__autoreleasing *)error,...;
 
-+ (id)VKCallSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
++ (id)VKCallSelectorName:(NSString *)selName err:(NSError *__autoreleasing *)error,...;
 
-- (id)VKCallSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallSelector:(SEL)selector err:(NSError *__autoreleasing *)error,...;
 
-- (id)VKCallSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallSelectorName:(NSString *)selName err:(NSError *__autoreleasing *)error,...;
 
 @end
 
 @interface NSString (VKMsgSend)
 
-- (id)VKCallClassSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallClassSelector:(SEL)selector err:(NSError *__autoreleasing *)error,...;
 
-- (id)VKCallClassSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallClassSelectorName:(NSString *)selName err:(NSError *__autoreleasing *)error,...;
 
-- (id)VKCallClassAllocInitSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallClassAllocInitSelector:(SEL)selector err:(NSError *__autoreleasing *)error,...;
 
-- (id)VKCallClassAllocInitSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...;
+- (id)VKCallClassAllocInitSelectorName:(NSString *)selName err:(NSError *__autoreleasing *)error,...;
 
 @end

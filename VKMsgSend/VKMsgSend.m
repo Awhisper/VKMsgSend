@@ -394,7 +394,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
 
 @implementation NSObject (VKMsgSend)
 
-+ (id)VKCallSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...{
++ (id)VKCallSelectorName:(NSString *)selName err:(NSError *__autoreleasing *)error,...{
     
     va_list argList;
     va_start(argList, error);
@@ -408,7 +408,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
     return vk_targetCallSelectorWithArgumentError(self, selector, boxingAruments, error);
 }
 
-+ (id)VKCallSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...{
++ (id)VKCallSelector:(SEL)selector err:(NSError *__autoreleasing *)error,...{
     
     va_list argList;
     va_start(argList, error);
@@ -421,7 +421,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
     return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
 
-- (id)VKCallSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error,...{
+- (id)VKCallSelectorName:(NSString *)selName err:(NSError *__autoreleasing *)error,...{
     
     va_list argList;
     va_start(argList, error);
@@ -435,7 +435,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
     return vk_targetCallSelectorWithArgumentError(self, selector, boxingArguments, error);
 }
 
-- (id)VKCallSelector:(SEL)selector error:(NSError *__autoreleasing *)error,...{
+- (id)VKCallSelector:(SEL)selector err:(NSError *__autoreleasing *)error,...{
     
     va_list argList;
     va_start(argList, error);
@@ -454,7 +454,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
 @implementation NSString (VKMsgSend)
 
 
--(id)VKCallClassSelector:(SEL)selector error:(NSError *__autoreleasing *)error, ...
+-(id)VKCallClassSelector:(SEL)selector err:(NSError *__autoreleasing *)error, ...
 {
     Class cls = NSClassFromString(self);
     if (!cls) {
@@ -476,7 +476,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
 }
 
 
--(id)VKCallClassSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error, ...
+-(id)VKCallClassSelectorName:(NSString *)selName err:(NSError *__autoreleasing *)error, ...
 {
     Class cls = NSClassFromString(self);
     if (!cls) {
@@ -499,7 +499,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
     return vk_targetCallSelectorWithArgumentError(cls, selector, boxingArguments, error);
 }
 
--(id)VKCallClassAllocInitSelector:(SEL)selector error:(NSError *__autoreleasing *)error, ...
+-(id)VKCallClassAllocInitSelector:(SEL)selector err:(NSError *__autoreleasing *)error, ...
 {
     Class cls = NSClassFromString(self);
     if (!cls) {
@@ -521,7 +521,7 @@ static NSArray *vk_targetBoxingArguments(va_list argList, Class cls, SEL selecto
     return vk_targetCallSelectorWithArgumentError(allocObj, selector, boxingArguments, error);
 }
 
--(id)VKCallClassAllocInitSelectorName:(NSString *)selName error:(NSError *__autoreleasing *)error, ...
+-(id)VKCallClassAllocInitSelectorName:(NSString *)selName err:(NSError *__autoreleasing *)error, ...
 {
     Class cls = NSClassFromString(self);
     if (!cls) {

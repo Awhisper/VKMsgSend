@@ -31,7 +31,9 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'VKMsgSend/**/*'
-  
+
+  s.prefix_header_contents = '#import "VKMsgSend+obf.h"'
+
   # s.resource_bundles = {
   #   'VKMsgSend' => ['VKMsgSend/Assets/*.png']
   # }
